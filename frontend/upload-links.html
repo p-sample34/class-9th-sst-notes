@@ -22,7 +22,7 @@
 
   <script>
     async function fetchLinks() {
-      const res = await fetch('https://class-6th-science-notes.onrender.com/api/shortlinks');
+      const res = await fetch('https://class-9th-sst-notes.onrender.com/api/shortlinks');
       const links = await res.json();
       const list = document.getElementById('link-list');
       list.innerHTML = '';
@@ -37,7 +37,7 @@
     async function uploadLink() {
       const title = document.getElementById('title').value;
       const url = document.getElementById('url').value;
-      await fetch('https://class-6th-science-notes.onrender.com/api/shortlinks', {
+      await fetch('https://class-9th-sst-notes.onrender.com/api/shortlinks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, url })
@@ -48,7 +48,7 @@
     }
 
     async function deleteLink(id) {
-      await fetch('https://class-6th-science-notes.onrender.com/api/shortlinks/' + id, {
+      await fetch('https://class-9th-sst-notes.onrender.com/api/shortlinks/' + id, {
         method: 'DELETE'
       });
       fetchLinks();
