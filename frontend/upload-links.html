@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Upload and Manage Links</title>
+  <style>
+    body { font-family: Arial; padding: 30px; background: #fff; }
+    input, button { margin: 10px 0; padding: 10px; width: 100%; max-width: 400px; display: block; }
+    button.delete { background: crimson; color: white; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h2>Upload a New Link</h2>
+  <input type="text" id="title" placeholder="Enter link title" />
+  <input type="text" id="url" placeholder="Enter link URL" />
+  <button onclick="uploadLink()">Upload</button>
+
+  <h3>Existing Links</h3>
+  <ul id="link-list"></ul>
+
+  <script>
+    async function fetchLinks() {
+      const res = await fetch('https://class-6th-science-notes.onrender.com/api/shortlinks');
+      const links = await res.json();
+      const list = document.getElementById('link-list');
+      list.innerHTML = '';
+      links.forEach(link => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${link.title}</strong>
+          <button class="delete" onclick="deleteLink('${link._id}')">Delete</button>`;
+        list.appendChild(li);
+      });
+    }
+
+    async function uploadLink() {
+      const title = document.getElementById('title').value;
+      const url = document.getElementById('url').value;
+      await fetch('https://class-6th-science-notes.onrender.com/api/shortlinks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, url })
+      });
+      document.getElementById('title').value = '';
+      document.getElementById('url').value = '';
+      fetchLinks();
+    }
+
+    async function deleteLink(id) {
+      await fetch('https://class-6th-science-notes.onrender.com/api/shortlinks/' + id, {
+        method: 'DELETE'
+      });
+      fetchLinks();
+    }
+
+    fetchLinks();
+  </script>
+</body>
+</html>

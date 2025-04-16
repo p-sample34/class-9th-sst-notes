@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Viewer - All Uploaded Links</title>
+  <style>
+    body { font-family: Arial; padding: 30px; background: #f0f0f0; text-align: center; }
+    h2 { color: #2e7d32; }
+    .link-button {
+      display: inline-block;
+      padding: 12px 24px;
+      margin: 10px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    .link-button:hover {
+      background-color: #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <h2>Uploaded Links</h2>
+  <div id="links-container"></div>
+
+  <script>
+    async function loadLinks() {
+      const res = await fetch('https://class-6th-science-notes.onrender.com/api/shortlinks');
+      const links = await res.json();
+      const container = document.getElementById('links-container');
+      container.innerHTML = '';
+      links.forEach(item => {
+        const a = document.createElement('a');
+        a.href = item.url;
+        a.target = '_blank';
+        a.className = 'link-button';
+        a.innerText = item.title;
+        container.appendChild(a);
+      });
+    }
+    loadLinks();
+  </script>
+</body>
+</html>
